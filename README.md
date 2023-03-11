@@ -2,4 +2,4 @@
 
 TicTacToe using kotlin and java sockets
 
-Just for educatioanl purposes
+Just for educational purposes
