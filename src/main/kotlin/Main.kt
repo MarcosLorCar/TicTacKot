@@ -1,3 +1,1 @@
-fun main() {
-    Menus.mainMenu()
-}
+fun main() = Menus.mainMenu()
