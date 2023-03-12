@@ -110,7 +110,7 @@ class TictacGame(private val hosting: Boolean, opponent: Socket) {
         }
 
         // Game loop
-        while (won == null) {
+        while (won == null && !draw()) {
             if (myTurn) {
                 var row: Int?
                 var column: Int?
@@ -155,23 +155,41 @@ class TictacGame(private val hosting: Boolean, opponent: Socket) {
             }
             myTurn = !myTurn
         }
-        if (won as Boolean) {
+        if (won!!) {
             printBoard() //Show won board
             println("""
                 --------
                 You won!
                 --------
             """.trimIndent())
-        } else {
+        } else if (!won!!) {
             printBoard() //Show lost board
             println("""
                 -------------
                 Opponent wins
                 -------------
             """.trimIndent())
+        } else {
+            printBoard() //Show lost board
+            println("""
+                ----
+                Draw
+                ----
+            """.trimIndent())
         }
         writer.close()
         reader.close()
         return
+    }
+
+    private fun draw(): Boolean {
+        var full = true
+        board.forEach { row ->
+            row.forEach { slot ->
+                if (slot == " ")
+                    full = false
+            }
+        }
+        return full
     }
 }
