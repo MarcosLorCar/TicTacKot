@@ -1,10 +1,5 @@
 object Menus {
 
-    fun prompt(prompt: String = ""): Any {
-        print(prompt)
-        return readln()
-    }
-
     private fun menuOf(vararg options: Pair<String,() -> Unit>) { // Helper method
 
         for ((index, pair) in options.withIndex()) {
@@ -29,4 +24,9 @@ object Menus {
         )
         mainMenu()
     }
+}
+
+fun prompt(prompt: String = ""): Any {
+    print(prompt)
+    return readln()
 }
