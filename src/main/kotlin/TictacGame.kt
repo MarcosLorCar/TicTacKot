@@ -6,7 +6,7 @@ import java.net.Socket
 import java.net.URL
 import kotlin.random.Random
 
-class TictacGame(private val hosting: Boolean, private val opponent: Socket) {
+class TictacGame(private val hosting: Boolean, opponent: Socket) {
 
     private var writer = PrintWriter(opponent.getOutputStream())
     private var reader = BufferedReader(InputStreamReader(opponent.getInputStream()))
@@ -20,7 +20,8 @@ class TictacGame(private val hosting: Boolean, private val opponent: Socket) {
                 server = ServerSocket(port)
                 val ip = BufferedReader(InputStreamReader(URL("https://checkip.amazonaws.com").openStream())).readLine()
                 println("Hosting server on IP: $ip Port: $port")
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                e.printStackTrace()
                 println("Error establishing a server")
                 return
             }
@@ -29,6 +30,8 @@ class TictacGame(private val hosting: Boolean, private val opponent: Socket) {
             println("Opponent found")
             game = TictacGame(true, opponent)
                 .also { it.play() }
+            opponent.close()
+            server.close()
         }
         fun joinGame() {
             val ip = prompt("Ip: ").toString()
@@ -44,6 +47,7 @@ class TictacGame(private val hosting: Boolean, private val opponent: Socket) {
             }
             game = TictacGame(false, server)
                 .also { it.play() }
+            server.close()
         }
     }
 
@@ -167,6 +171,8 @@ class TictacGame(private val hosting: Boolean, private val opponent: Socket) {
                 -------------
             """.trimIndent())
         }
-        opponent.close()
+        writer.close()
+        reader.close()
+        return
     }
 }
