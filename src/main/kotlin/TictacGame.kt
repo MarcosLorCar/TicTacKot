@@ -20,8 +20,7 @@ class TictacGame(private val hosting: Boolean, opponent: Socket) {
                 server = ServerSocket(port)
                 val ip = BufferedReader(InputStreamReader(URL("https://checkip.amazonaws.com").openStream())).readLine()
                 println("Hosting server on IP: $ip Port: $port")
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (_: Exception) {
                 println("Error establishing a server")
                 return
             }
